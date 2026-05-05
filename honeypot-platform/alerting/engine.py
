@@ -1,0 +1,37 @@
+"""Alert orchestration."""
+
+from __future__ import annotations
+
+from loguru import logger
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from alerting.rules import RULES
+from pipeline.database import get_session_factory
+
+
+async def evaluate_ingestion_batch(events: list[dict]) -> None:
+    if not events:
+        return
+
+    factory = get_session_factory()
+    async with factory() as db:
+        for payload in events:
+            for rule in RULES:
+                try:
+                    await rule.evaluate(db, payload)
+                except Exception as exc:
+                    logger.exception("alert rule failure rule=%s error=%s", getattr(rule, "name", "?"), exc)
+        await db.commit()
+
+
+async def evaluate_periodic_signals() -> None:
+    factory = get_session_factory()
+    async with factory() as db:
+        for rule in RULES:
+            ev = getattr(rule, "evaluate_period", None)
+            if callable(ev):
+                try:
+                    await ev(db)  # type: ignore[misc]
+                except Exception as exc:
+                    logger.exception("periodic alert rule failure {}", exc)
+        await db.commit()

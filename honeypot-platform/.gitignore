@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Env & secrets
+.env
+!.env.example
+
+# Data & DB (local runs)
+data/*.db
+data/*.db-journal
+!data/.gitkeep
+
+# Logs & reports output
+logs/*
+!logs/.gitkeep
+reports/*
+!reports/.gitkeep
+
+# GeoIP (large binary; download per README)
+data/GeoLite2-City.mmdb
+
+# Node
+node_modules/
+dashboard/dist/
+.npm/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
