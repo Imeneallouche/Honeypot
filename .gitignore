@@ -1,0 +1,194 @@
+# Operating System
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+*.sw?
+*~ 
+*.bak
+*.tmp
+*.temp
+*.orig
+*.rej
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.pid
+*.seed
+*.log.*
+
+# Dependency directories
+node_modules/
+bower_components/
+jspm_packages/
+vendor/
+
+# Build output
+dist/
+build/
+out/
+tmp/
+temp/
+release/
+public/build/
+coverage/
+*.lcov
+
+# Environment files
+.env
+.env.*
+*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+*.whl
+dist/
+build/
+.eggs/
+pip-wheel-metadata/
+share/python-wheels/
+.env/
+venv/
+ENV/
+env/
+.venv/
+pyvenv.cfg
+
+# Java
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.iml
+*.ipr
+*.iws
+*.classpath
+*.project
+
+# C/C++
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.lib
+*.a
+*.lo
+*.lai
+*.gch
+*.pch
+*.out
+
+# Go
+bin/
+*.exe
+*.test
+vendor/
+Godeps/
+
+# Rust
+target/
+Cargo.lock
+*.rlib
+
+# Ruby
+*.gem
+*.rbc
+.bundle/
+.config/
+.yardoc/
+_yardoc/
+coverage/
+InstalledFiles
+pkg/
+spec/reports/
+test/tmp/
+test/version_tmp/
+tmp/
+
+# PHP
+vendor/
+composer.lock
+composer.phar
+*.pid
+*.log
+
+# .NET
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.cache
+*.dbmdl
+*.bak
+*.pidb
+*.svclog
+*.pdb
+*.dll
+*.exe
+*.cache
+*.builds
+*.log
+
+# Docker
+docker-compose.override.yml
+.docker/
+*.dockerignore
+
+# Certificates and keys
+*.pem
+*.key
+*.csr
+*.crt
+
+# Archive and package files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.gz
+*.bz2
+*.xz
+
+# Misc
+*.DS_Store
+*.Thumbs.db
+*.iml
+.idea/
+.vscode/
