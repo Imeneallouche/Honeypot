@@ -1,0 +1,105 @@
+services:
+  ssh-honeypot:
+    build:
+      context: .
+      dockerfile: honeypots/ssh/Dockerfile
+    ports:
+      - "${SSH_HONEYPOT_PORT:-2222}:2222"
+    env_file:
+      - .env
+    volumes:
+      - honeypot_logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "2222"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  http-honeypot:
+    build:
+      context: .
+      dockerfile: honeypots/http/Dockerfile
+    ports:
+      - "${HTTP_HONEYPOT_PORT:-8080}:8080"
+    env_file:
+      - .env
+    volumes:
+      - honeypot_logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  pipeline:
+    build:
+      context: .
+      dockerfile: pipeline/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - honeypot_logs:/app/logs
+      - honeypot_db:/app/data
+    depends_on:
+      ssh-honeypot:
+        condition: service_healthy
+      http-honeypot:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import sqlite3; sqlite3.connect('/app/data/honeypot.db').close()",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "${API_PORT:-8000}:8000"
+    env_file:
+      - .env
+    volumes:
+      - honeypot_db:/app/data
+      - honeypot_reports:/app/reports
+    depends_on:
+      pipeline:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 15s
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    ports:
+      - "${DASHBOARD_PORT:-3000}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  honeypot_db:
+  honeypot_logs:
+  honeypot_reports:
